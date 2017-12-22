@@ -10,7 +10,35 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // 只有以 /api 开头的接口才走代理，其它都不管
+      // 这里就表示当你请求以 /api 开头的路径的时候就会代理到 http://api.botue.com
+      // /api/login  http://api.botue.com/api/login
+      // /api/login  http://api.botue.com/login
+      "/api": {
+        target: "http://api.botue.com",
+        // needed for virtual hosted sites
+        // origin 请求对方服务器，会在请求头中有一个字段：origin: 告诉对象服务器我从哪来的
+        // 例如你请求百度：baidu.com
+        // 默认代理请求 http://api.botue.com 的时候，origin 是 127.0.0.1:8080
+        // 我们的代理服务器在代理请求 http://api.botue.com 的时候，会带上我们客户端的 origin
+        // 所以我们加入下面这个选项，changeOrigin: true, 告诉对象服务器我不是代理过来的，我是直接过来的
+        // 因为对方的代理服务器会根据这个 origin 做判断做虚拟主机分发
+        // 关于子级域名
+        // baidu.com
+        // www.baidu.com a 记录 顶级域名
+        // news.baidu.com 子级
+        // nodejs.circle.ink
+        // vuejs.circle.ink
+        // webpack.circle.ink
+        // 多个域名对应到了一台服务器
+        // 一台服务器提供了多个网站
+        // 一台服务器跑了好几台网站服务器，
+        // 一般这种服务器上会安装一个反向代理服务器
+        changeOrigin: true,  // 代理的时候不要使用 127.0.0.1:8080 ，使用 target 目标，这样对方服务器才能认识
+        pathRewrite: {"^/api" : ""} // 路径重写，把路径中的 /api 去除
+      }
+    }, // vue 作者希望你把代理配置搞到这里
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

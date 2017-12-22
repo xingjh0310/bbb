@@ -8,6 +8,7 @@
   <!-- 其它页面自已调整吧 -->
   <div class="container-fluid">
     <!-- 由路由导航过来的 -->
+    <router-view></router-view>
   </div>
 </div>
 </div>
