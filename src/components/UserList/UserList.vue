@@ -308,6 +308,8 @@
 
 <script>
 export default {
+  beforeCreate () {
+  },
   data () {
     return {}
   }

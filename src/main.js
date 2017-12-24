@@ -15,6 +15,8 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 
+import 'nprogress/nprogress.css'
+
 // 导入第三方样式之后，就可以导入我们自己的公共样式了
 // 然后在组件中写组件自己的样式
 import './assets/less/index.less'

@@ -1,3 +1,5 @@
+// eslint 代码规范校验工具的配置文件
+
 // https://eslint.org/docs/user-guide/configuring
 
 module.exports = {
@@ -17,8 +19,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'no-unused-vars': 0,
-    'semi': 0,
+    'no-unused-vars': 0, // 忽略定义变量未使用
+    'semi': 0, // 忽略分号校验
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
