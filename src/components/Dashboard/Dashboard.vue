@@ -40,8 +40,14 @@
 
 <script>
 export default {
+  created () {
+    this.$http.get('teachers').then(res => {
+      console.log(res.data)
+    })
+  },
   data () {
-    return {}
+    return {
+    }
   }
 }
 </script>

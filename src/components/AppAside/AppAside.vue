@@ -12,12 +12,12 @@
     <div class="navs">
       <ul class="list-unstyled">
         <li>
-          <router-link to="/" active-class="active" exact>
+          <router-link to="/" exact>
             <i class="fa fa-home"></i> 仪表盘
           </router-link>
         </li>
         <li>
-          <router-link to="users" active-class="active">
+          <router-link to="users">
             <i class="fa fa-home"></i> 用户管理
           </router-link>
         </li>
@@ -56,9 +56,9 @@
           </ul>
         </li>
         <li>
-          <router-link to="/">
+          <a href="#/">
             <i class="fa fa-home"></i> 广告管理
-          </router-link>
+          </a>
         </li>
 
         <li>

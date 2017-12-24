@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import http from './assets/js/http'
 
 // 0. npm i bootstrap font-awesome
 // 1. 在组件系统的启动入口载入 boostrap
@@ -20,6 +21,9 @@ import 'nprogress/nprogress.css'
 // 导入第三方样式之后，就可以导入我们自己的公共样式了
 // 然后在组件中写组件自己的样式
 import './assets/less/index.less'
+
+// 挂载使用插件使其生效
+Vue.use(http)
 
 Vue.config.productionTip = false
 

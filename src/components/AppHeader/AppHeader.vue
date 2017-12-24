@@ -21,7 +21,7 @@
                   </a>
       </li>
       <li>
-        <a href="javascript:;">
+        <a href="javascript:;" @click="handleLogout">
                       <i class="fa fa-sign-out"></i>
                       退出
                   </a>
@@ -37,9 +37,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {}
+  },
+  methods: {
+    // 处理用户退出
+    handleLogout () {
+      // 1. 删除本地 token
+      // 2. 请求服务器，告诉服务器用户退出了
+      window.localStorage.removeItem('bxg-token')
+
+      // 服务器得知道谁要退出
+      axios.delete('http://api.circle.ink/v1/auth').then(res => {
+        if (res.status === 204) {
+          this.$router.push('/login')
+        }
+      })
+    }
   }
 }
 </script>

@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'no-unused-vars': 0, // 忽略定义变量未使用
     'semi': 0, // 忽略分号校验
+    'space-before-function-paren': 0,
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
