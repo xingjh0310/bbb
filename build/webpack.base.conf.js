@@ -32,9 +32,10 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
-    alias: {
-      '@': resolve('src'),
+    extensions: ['.js', '.vue', '.json'], // 这里配置让 webpack 支持省略自定义后缀名模块
+    alias: { // 别名，为指定的路径起别名，我们可以把很长的一个路径起个别名
+      '@': resolve('src/components'),
+      'js': resolve('src/assets/js')
     }
   },
   module: {

@@ -45,13 +45,29 @@
               href="#"
               class="btn btn-info btn-xs"
               @click.prevent="showTeacherDetail(item._id)">查 看</a>
-            <a href="./teacher_add.html" class="btn btn-info btn-xs">编 辑</a>
+            <!--
+              导航到一个命名路由
+              Vue 推荐给所有的路由起名字，这是一个好习惯
+              -->
+            <router-link class="btn btn-info btn-xs" :to="{
+              name: 'teacher-edit',
+              params: {
+                teacherId: item._id
+              }
+            }">编辑</router-link>
             <a href="javascript::" class="btn btn-warning btn-xs">注 销</a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :page-size="2"
+      layout="prev, pager, next"
+      :total="totalCount">
+    </el-pagination>
   <el-dialog title="讲师信息" :visible.sync="dialogTableVisible">
     <table class="table table-bordered table-condensed">
       <tbody>
@@ -105,21 +121,33 @@
 <script>
 export default {
   created () {
-    this.getTeacherList()
+    this.getTeacherListByPage(2)
   },
   data() {
     return {
       teacherList: [],
       dialogTableVisible: false,
       loading: true,
-      teacher: {}
+      teacher: {},
+      totalCount: 0
     }
   },
   methods: {
-    getTeacherList () {
-      this.$http.get('/teachers').then(res => {
+    handleCurrentChange (page) {
+      this.loading = true
+      this.getTeacherListByPage(page)
+    },
+    getTeacherListByPage (page = 1) {
+      this.$http.get('/teachers', {
+        params: {
+          _page: page,
+          _limit: 2
+        }
+      }).then(res => {
+        this.totalCount = res.headers['x-total-count'] - 0
         this.loading = false
         if (res.status === 200) {
+          console.log(res.headers)
           this.teacherList = res.data
         }
       })

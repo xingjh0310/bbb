@@ -18,11 +18,13 @@ import nprogress from 'nprogress'
 // 基于 axios 复制了一个
 // 复制的 axios 不会影响 axios
 // 接下来我们请求 bxg-api 的时候都去使用这个 axios 实例来发请求
-const bxgAxios = axios.create({
+export const bxgAxios = axios.create({
   baseURL: 'http://api.circle.ink/v1/',
-  timeout: 1000 * 60, // 请求超时时间，当超过 1000 毫秒没有响应就触发超时钩子
+  timeout: 1000 * 60, // 请求超时时间，当超过 6000 毫秒没有响应就触发超时钩子
   // X-Access-Token
   // 服务器要求必须把 token 放到一个叫做 X-Access-Token 的请求头中
+  // withCredentials: true,
+  // transformRequest: [(data) => JSON.stringify(data.data)],
   headers: {'X-Access-Token': auth.getToken()}
 })
 
@@ -38,8 +40,8 @@ bxgAxios.interceptors.request.use(function (config) { // 如果请求成功，�
   return config; // 执行玩自己的自定义逻辑之后，就可以放行通过
 }, function (error) { // 如果请求本身错误，会先进入这里
   // Do something with request error
-  return Promise.reject(error);
-});
+  return Promise.reject(error)
+})
 
 // 当你使用 bxgAxios 发起的请求收到响应的时候会先进入响应拦截器
 // 执行完拦截器的代码之后才真的发起请求
@@ -47,13 +49,13 @@ bxgAxios.interceptors.response.use(function (response) {
   // Do something with response data
   // console.log(response)
   nprogress.done()
-  return response;
+  return response
 }, function (error) { // 如果响应出错会先进入这个 function 然后再调用你的 catch 方法
   // 登陆失败的时候会进入这里，所以这里也要让 nprogress 停止
   nprogress.done()
   // Do something with response error
-  return Promise.reject(error);
-});
+  return Promise.reject(error)
+})
 
 // 请求响应拦截器
 

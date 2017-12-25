@@ -10,6 +10,7 @@ import UserList from './components/user-list/user-list'
 
 import TeacherList from './components/teacher-list/teacher-list'
 import TeacherNew from './components/teacher-new/teacher-new'
+import TeacherEdit from '@/teacher-edit/teacher-edit'
 
 import CourseList from './components/course-list/course-list' // 课程列表
 import CourseNew from './components/course-new/course-new' // 新建课程
@@ -48,6 +49,12 @@ const router = new VueRouter({
         {
           path: '/teachers/new',
           component: TeacherNew,
+          meta: { requiresAuth: true }
+        },
+        {
+          name: 'teacher-edit',
+          path: '/teachers/:teacherId/edit',
+          component: TeacherEdit,
           meta: { requiresAuth: true }
         },
         {
@@ -111,6 +118,14 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // 不需要验证登陆权限的
   }
+  // 在这里调用不合适
+  // 因为后面可能还有别的守卫在拦截
+  // nprogress.done()
+})
+
+// 在这里可以做一些导航完成之后的收尾工作
+// 例如如果路由的局部钩子不放行,则这里也不会被调用到
+router.afterEach((to, from) => {
   nprogress.done()
 })
 
