@@ -2,14 +2,20 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import nprogress from 'nprogress'
 
-import Login from './components/Login/Login'
-import Home from './components/Home/Home'
-import Dashboard from './components/Dashboard/Dashboard'
+import Login from './components/login/login'
+import Home from './components/home/home'
+import Dashboard from './components/dashboard/dashboard'
 
-import UserList from './components/UserList/UserList'
+import UserList from './components/user-list/user-list'
 
-import TeacherList from './components/TeacherList/TeacherList'
-import TeacherNew from './components/TeacherNew/TeacherNew'
+import TeacherList from './components/teacher-list/teacher-list'
+import TeacherNew from './components/teacher-new/teacher-new'
+
+import CourseList from './components/course-list/course-list' // 课程列表
+import CourseNew from './components/course-new/course-new' // 新建课程
+import CourseEdit from './components/course-edit/course-edit' // 编辑课程基本信息
+import CourseEditPicture from './components/course-edit-picture/course-edit-picture' // 编辑课程图片
+import CourseEditLesson from './components/course-edit-lesson/course-edit-lesson' // 编辑课程课时信息
 
 // 注意：在模块化工程中必须显示的执行下面的代码
 Vue.use(VueRouter)

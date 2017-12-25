@@ -95,8 +95,13 @@ export default {
   },
   methods: {
     handleTeacherAdd () {
-      this.$http.post('teachers', this.teacher).then(res => {
-        console.log(res)
+      console.log(this.teacher)
+      this.$http.post('teachers', this.teacher, {
+        nprogress: true
+      }).then(res => {
+        if (res.status === 201) {
+          this.$router.push('/teachers')
+        }
       })
     }
   }

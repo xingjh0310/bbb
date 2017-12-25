@@ -17,6 +17,7 @@
                   </span>
         <input type="password" v-model="formData.password" class="form-control" placeholder="密码" required>
       </div>
+      <div v-show="isLogedFailed" class="alert alert-danger" role="alert">登陆失败</div>
       <button type="submit" class="btn btn-lg btn-primary btn-block">登 录</button>
     </form>
   </div>
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { saveToken } from '../../assets/js/auth'
 
 export default {
   created () {
@@ -34,21 +35,31 @@ export default {
       formData: {
         username: '',
         password: ''
-      }
+      },
+      isLogedFailed: false
     }
   },
   methods: {
     handleLogin () {
-      axios.post('http://api.circle.ink/v1/auth', this.formData).then(res => {
+      // axios 的方法只有 2xx 才会进入 then 方法
+      // 例如 4xx 5xx  都会进入 axios 的 catch 方法
+      this.$http.post('/auth', this.formData, {
+        nprogress: true
+      }).then(res => {
+        // JSON.parse('dsadsa') // 这里一旦报错就停止执行进入 catch
         const status = res.status
         if (status === 201) {
-          // 把 token 写到本地存储中存储起来
-          // 然后在路由导航的钩子中把 token 拿出来进行校验
-          // 把 token 等相关信息记录到本地存储
-          window.localStorage.setItem('bxg-token', JSON.stringify(res.data))
-
-          // 登陆成功，拿到查询字符串中的重定向路径跳转过去
+          saveToken(res.data) // 把响应结果存储到本地存储
           this.$router.push(this.$route.query.redirect || '/')
+        }
+      }).catch(err => {
+        // catch 可以用来捕获异常，不仅仅不报 4xx 及 5xx 状态码的异常
+        // 还报错 then 中代码的错误
+        // 只有 http 错误才有 response 响应对象
+        // 普通的错误对象是没有这个属性的，所以我们这里要严谨的判断
+        if (err.response && err.response.status === 401) {
+          // window.alert('登陆失败')
+          this.isLogedFailed = true
         }
       })
     }
@@ -79,5 +90,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.login > .login-wrap > form > div.alert {
+  padding: 5px;
+}
 </style>

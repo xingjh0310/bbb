@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
 import http from './assets/js/http'
@@ -18,9 +19,14 @@ import 'font-awesome/css/font-awesome.min.css'
 
 import 'nprogress/nprogress.css'
 
+import 'element-ui/lib/theme-chalk/index.css'
+
 // 导入第三方样式之后，就可以导入我们自己的公共样式了
 // 然后在组件中写组件自己的样式
 import './assets/less/index.less'
+
+// 配置使用 Element UI
+Vue.use(ElementUI)
 
 // 挂载使用插件使其生效
 Vue.use(http)

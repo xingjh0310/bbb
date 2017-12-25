@@ -11,6 +11,7 @@
 
 import axios from 'axios'
 import * as auth from './auth'
+import nprogress from 'nprogress'
 
 // 封装 Vue 插件参考文档：https://cn.vuejs.org/v2/guide/plugins.html
 // axios 参考文档：https://github.com/axios/axios
@@ -24,6 +25,37 @@ const bxgAxios = axios.create({
   // 服务器要求必须把 token 放到一个叫做 X-Access-Token 的请求头中
   headers: {'X-Access-Token': auth.getToken()}
 })
+
+// 请求拦截器
+// 当你使用 bxgAxios 发起请求的时候会先进入这个拦截器
+// 执行完拦截器的代码之后才真的发起请求
+bxgAxios.interceptors.request.use(function (config) { // 如果请求成功，会先进入这里，然后调用你的 then
+  // Do something before request is sent
+  if (config.nprogress) {
+    nprogress.start()
+  }
+
+  return config; // 执行玩自己的自定义逻辑之后，就可以放行通过
+}, function (error) { // 如果请求本身错误，会先进入这里
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+// 当你使用 bxgAxios 发起的请求收到响应的时候会先进入响应拦截器
+// 执行完拦截器的代码之后才真的发起请求
+bxgAxios.interceptors.response.use(function (response) {
+  // Do something with response data
+  // console.log(response)
+  nprogress.done()
+  return response;
+}, function (error) { // 如果响应出错会先进入这个 function 然后再调用你的 catch 方法
+  // 登陆失败的时候会进入这里，所以这里也要让 nprogress 停止
+  nprogress.done()
+  // Do something with response error
+  return Promise.reject(error);
+});
+
+// 请求响应拦截器
 
 // 接下来把 axios 配置为 Vue 的一个插件
 // 就像 this.$router 代理了 router 实例一样

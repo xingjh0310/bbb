@@ -21,4 +21,6 @@ export function getToken() {
 
 export function isLogin() {}
 
-export function saveToken() {}
+export function saveToken(obj) {
+  window.localStorage.setItem(tokenName, JSON.stringify(obj))
+}

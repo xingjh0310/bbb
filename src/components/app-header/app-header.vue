@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data () {
     return {}
@@ -50,7 +49,9 @@ export default {
       window.localStorage.removeItem('bxg-token')
 
       // 服务器得知道谁要退出
-      axios.delete('http://api.circle.ink/v1/auth').then(res => {
+      this.$http.delete('/auth', {
+        nprogress: true
+      }).then(res => {
         if (res.status === 204) {
           this.$router.push('/login')
         }

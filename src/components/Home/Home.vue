@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import AppHeader from '../AppHeader/AppHeader'
-import AppAside from '../AppAside/AppAside'
+import AppHeader from '../app-header/app-header'
+import AppAside from '../app-aside/app-aside'
 
 export default {
   data () {
