@@ -57,7 +57,7 @@
       <tbody>
         <tr>
           <th>姓名:</th>
-          <td>赵玉川</td>
+          <td>{{ teacher.real_name }}</td>
           <th>职位:</th>
           <td colspan="3">讲师</td>
           <td rowspan="4" width="128">
@@ -111,7 +111,8 @@ export default {
     return {
       teacherList: [],
       dialogTableVisible: false,
-      loading: true
+      loading: true,
+      teacher: {}
     }
   },
   methods: {
@@ -124,7 +125,25 @@ export default {
       })
     },
     showTeacherDetail (teacherId) {
-      this.dialogTableVisible = true
+      // 弹出模态框
+      // this.dialogTableVisible = true
+      // 拿到点击查看的讲师 id
+      // 发起请求获取讲师数据
+      // 把讲师数据绑定到查看的模态框中进行展示
+      const loading = this.$loading({
+        lock: true,
+        text: '正在拼命的加载的中。。。',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
+      this.$http.get(`/teachers/${teacherId}`).then(res => {
+        this.teacher = res.data
+        // 关闭 loading 状态
+        loading.close()
+        // 弹出模态框
+        this.dialogTableVisible = true
+      })
     }
   }
 }
