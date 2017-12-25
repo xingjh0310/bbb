@@ -17,6 +17,9 @@ import CourseEdit from './components/course-edit/course-edit' // 编辑课程基
 import CourseEditPicture from './components/course-edit-picture/course-edit-picture' // 编辑课程图片
 import CourseEditLesson from './components/course-edit-lesson/course-edit-lesson' // 编辑课程课时信息
 
+import SettingsProfile from './components/settings-profile/settings-profile'
+import SettingsAdmin from './components/settings-admin/settings-admin'
+
 // 注意：在模块化工程中必须显示的执行下面的代码
 Vue.use(VueRouter)
 
@@ -45,6 +48,36 @@ const router = new VueRouter({
         {
           path: '/teachers/new',
           component: TeacherNew,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/settings/profile',
+          component: SettingsProfile,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/settings/admin',
+          component: SettingsAdmin,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/course',
+          component: CourseNew,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/course/:courseId/edit/picture',
+          component: CourseEditPicture,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/course/:courseId/edit/lesson',
+          component: CourseEditLesson,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/course/:courseId/edit',
+          component: CourseEdit,
           meta: { requiresAuth: true }
         }
       ]

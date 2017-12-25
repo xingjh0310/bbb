@@ -22,7 +22,7 @@
         </div>
       </form>
     </div>
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover" v-loading="loading">
       <thead>
         <tr>
           <th>编号</th>
@@ -110,12 +110,14 @@ export default {
   data() {
     return {
       teacherList: [],
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      loading: true
     }
   },
   methods: {
     getTeacherList () {
       this.$http.get('/teachers').then(res => {
+        this.loading = false
         if (res.status === 200) {
           this.teacherList = res.data
         }
@@ -123,7 +125,6 @@ export default {
     },
     showTeacherDetail (teacherId) {
       this.dialogTableVisible = true
-      console.log(teacherId)
     }
   }
 }

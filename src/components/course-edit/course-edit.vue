@@ -20,19 +20,19 @@
     <!-- 步聚 -->
     <ul class="forwards list-unstyled">
       <li>
-        <a href="./course_add_step1.html" class="active">
+        <a href="#/course/1/edit" class="active">
                           <b>1</b>
                           基本信息
                           </a>
       </li>
       <li>
-        <a href="./course_add_step2.html">
+        <a href="#/course/1/edit/picture">
                           <b>2</b>
                           课程图片
                           </a>
       </li>
       <li>
-        <a href="./course_add_step3.html">
+        <a href="#/course/1/edit/lesson">
                           <b>3</b>
                           课时管理
                           </a>
@@ -87,7 +87,7 @@
         </div>
         <div class="form-group">
           <div class="col-md-10">
-            <a href="./course_add_step2.html" class="btn btn-success btn-sm pull-right">保 存</a>
+            <a href="#/course/1/edit/picture" class="btn btn-success btn-sm pull-right">保 存</a>
           </div>
         </div>
       </form>

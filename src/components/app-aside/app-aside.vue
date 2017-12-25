@@ -17,7 +17,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="users">
+          <router-link to="/users">
             <i class="fa fa-home"></i> 用户管理
           </router-link>
         </li>
@@ -34,9 +34,7 @@
                   </a>
           <ul class="list-unstyled">
             <li>
-              <a href="./course_add.html">
-                               课程添加
-                          </a>
+              <router-link to="/course">课程添加</router-link>
             </li>
             <li>
               <a href="./course_list.html">
