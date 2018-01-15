@@ -21,6 +21,12 @@ import CourseEditLesson from './components/course-edit-lesson/course-edit-lesson
 import SettingsProfile from './components/settings-profile/settings-profile'
 import SettingsAdmin from './components/settings-admin/settings-admin'
 
+import CrouseCategoryList from '@/course-category/course-category'
+import CrouseCategoryNew from '@/course-category-new/course-category-new'
+
+import NotFound from '@/not-found/not-found'
+
+
 // 注意：在模块化工程中必须显示的执行下面的代码
 Vue.use(VueRouter)
 
@@ -86,12 +92,25 @@ const router = new VueRouter({
           path: '/course/:courseId/edit',
           component: CourseEdit,
           meta: { requiresAuth: true }
+        },
+        {
+          path: '/course_category',
+          component: CrouseCategoryList,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/course_category/new',
+          component: CrouseCategoryNew,
+          meta: { requiresAuth: true }
         }
       ]
     },
     {
       path: '/login',
       component: Login
+    },{
+      path: '/not_found',
+      component: NotFound
     }
   ]
 })

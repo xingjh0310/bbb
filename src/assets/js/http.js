@@ -13,6 +13,18 @@ import axios from 'axios'
 import * as auth from './auth'
 import nprogress from 'nprogress'
 
+// 由于这里不是在组件中，无法 this.$router
+// 所以这里可以通过手动加载 router 的方式来获取 router
+import router from '../../router'
+
+// 在这里利用 axios 的请求响应拦截器配置了一个动态的请求响应加载进度条
+// 这里只是定制了动态进度条
+// 还可以定制统一处理错误码
+//    401 没有授权
+//    403 已授权，但是没有操作权限
+//    404 资源不存在
+//    500 服务器错误
+
 // 封装 Vue 插件参考文档：https://cn.vuejs.org/v2/guide/plugins.html
 // axios 参考文档：https://github.com/axios/axios
 // 基于 axios 复制了一个
@@ -25,7 +37,7 @@ export const bxgAxios = axios.create({
   // 服务器要求必须把 token 放到一个叫做 X-Access-Token 的请求头中
   // withCredentials: true,
   // transformRequest: [(data) => JSON.stringify(data.data)],
-  headers: {'X-Access-Token': auth.getToken()}
+  headers: { 'X-Access-Token': auth.getToken() }
 })
 
 // 请求拦截器
@@ -45,14 +57,47 @@ bxgAxios.interceptors.request.use(function (config) { // 如果请求成功，�
 
 // 当你使用 bxgAxios 发起的请求收到响应的时候会先进入响应拦截器
 // 执行完拦截器的代码之后才真的发起请求
-bxgAxios.interceptors.response.use(function (response) {
+bxgAxios.interceptors.response.use(function (response) { // 响应没有异常就会地调用这个函数
   // Do something with response data
   // console.log(response)
   nprogress.done()
   return response
-}, function (error) { // 如果响应出错会先进入这个 function 然后再调用你的 catch 方法
+}, function (error) { // 只有非 2xx 的状态码错误才会进入这个方法
   // 登陆失败的时候会进入这里，所以这里也要让 nprogress 停止
   nprogress.done()
+
+  const config = error.config
+
+  // 现在所有使用 axios 发起请求的代码一旦出错就会进入这里，进行统一的异常处理
+  // 注意：这里的异常不是普通的程序错误，一定是 HTTP 状态码错误
+  const status = error.response && error.response.status
+
+  switch (status) {
+    case 500:
+      window.alert(config.res500Message || '服务器异常')
+      break
+    case 403:
+      window.alert(config.res403Message || '没有权限')
+      break
+    case 404:
+      // 404 只有可以选择两种方式
+      // 方式一：跳转到一个 404 页面
+      // 方式二：弹框：资源不存在
+      // 默认弹框：资源不存在
+      if (config.redirect404) {
+        // 可以选择跳转到 404
+        router.push('/not_found')
+      } else {
+        window.alert(config.res404Message || '不存在')
+      }
+      break
+    case 401:
+      window.alert(config.res401Message || '未授权')
+      break
+    default:
+      break
+  }
+
   // Do something with response error
   return Promise.reject(error)
 })

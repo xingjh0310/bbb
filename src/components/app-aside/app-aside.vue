@@ -42,9 +42,7 @@
                           </a>
             </li>
             <li>
-              <a href="./course_category.html">
-                              课程分类
-                          </a>
+              <router-link to="/course_category">课程分类</router-link>
             </li>
             <li>
               <a href="./course_topic.html">
@@ -84,6 +82,9 @@
 </template>
 <script>
 export default {
+  created () {
+    console.log(123)
+  },
   data () {
     return {}
   }
